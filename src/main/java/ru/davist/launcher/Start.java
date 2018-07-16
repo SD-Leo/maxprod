@@ -17,14 +17,17 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 import org.controlsfx.control.Notifications;
 
-import java.io.IOException;
-
 public class Start  {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         System.out.println("Hello, Launcher!");
         MainApp app = new MainApp();
-        app.run();
+
+
+
+        JXGrabKeyTest keyTest = new JXGrabKeyTest();
+        keyTest.register(app::run);
+
 
     }
 

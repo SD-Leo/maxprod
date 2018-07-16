@@ -20,6 +20,22 @@
             <artifactId>controlsfx</artifactId>
             <version>8.40.14</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/jxgrabkey/jxgrabkey -->
+        <!--<dependency>-->
+            <!--<groupId>jxgrabkey</groupId>-->
+            <!--<artifactId>jxgrabkey</artifactId>-->
+            <!--<version>RELEASE</version>-->
+        <!--</dependency>-->
+
+        <!-- https://mvnrepository.com/artifact/com.github.tulskiy/jkeymaster -->
+        <dependency>
+            <groupId>com.github.tulskiy</groupId>
+            <artifactId>jkeymaster</artifactId>
+            <version>1.1</version>
+        </dependency>
+
+
     </dependencies>
 
     
