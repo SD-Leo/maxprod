@@ -17,6 +17,8 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 import org.controlsfx.control.Notifications;
 
+import java.util.Random;
+
 public class Start  {
 
     public static void main(String[] args) throws Exception {
@@ -24,11 +26,37 @@ public class Start  {
         MainApp app = new MainApp();
 
 
+//        Provider provider = Provider.getCurrentProvider(false);
+//
+//        provider.register(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, InputEvent.ALT_DOWN_MASK), hotKey -> {
+//            try {
+//                app.run();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        });
 
-        JXGrabKeyTest keyTest = new JXGrabKeyTest();
-        keyTest.register(app::run);
+//        JXGrabKeyTest keyTest = new JXGrabKeyTest();
+//        keyTest.register(app::run);
 
+        System.out.println(randomString(-229985452) + " " + randomString(-147909649));
 
+    }
+
+    public static String randomString(int i)
+    {
+        Random ran = new Random(i);
+        StringBuilder sb = new StringBuilder();
+        while (true)
+        {
+            int k = ran.nextInt(27);
+            if (k == 0)
+                break;
+
+            sb.append((char)('`' + k));
+        }
+
+        return sb.toString();
     }
 
 //    @Override

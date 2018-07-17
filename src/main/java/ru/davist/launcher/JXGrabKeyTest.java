@@ -49,7 +49,7 @@ public class JXGrabKeyTest {
 
         //Wait for Hotkey Event
         while(!hotkeyEventReceived){
-            Thread.sleep(100);
+            Thread.sleep(300);
         }
         job.doJob();
 

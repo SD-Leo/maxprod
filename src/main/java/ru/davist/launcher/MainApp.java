@@ -1,6 +1,8 @@
 package ru.davist.launcher;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -13,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,6 +39,7 @@ public class MainApp extends Application {
         primaryStage.setMinWidth(50);
         primaryStage.setMinHeight(30);
         primaryStage.setResizable(false);
+        primaryStage.initStyle(StageStyle.UNDECORATED);
 
         System.out.println("read names");
         readNames();
@@ -66,6 +70,17 @@ public class MainApp extends Application {
             } else {
                 System.out.println("input: " + inputText);
                 table.setItems(search(inputText));
+            }
+        });
+
+        text.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue) {
+                    System.out.println("focus");
+                } else {
+                    primaryStage.close();
+                }
             }
         });
 
