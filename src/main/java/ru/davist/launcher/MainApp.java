@@ -12,10 +12,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,24 +26,28 @@ import java.util.stream.Collectors;
 public class MainApp extends Application {
 
     private List<String> database; // = new ArrayList<>();
+    private StopHandler handler;
+    private Stage window;
 
-    public void run() throws IOException {
-        System.out.println("launch");
-        launch();
-    }
+//    public void run(StopHandler handler) throws IOException {
+//        System.out.println("11111111: " + this);
+//        this.handler = handler;
+//        System.out.println("launch");
+//        launch();
+//    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Launcher");
-        primaryStage.setMinWidth(50);
-        primaryStage.setMinHeight(30);
-        primaryStage.setResizable(false);
-        primaryStage.initStyle(StageStyle.UNDECORATED);
+        window = new Stage();
+        Start.mainWindow = window;
+        window.setTitle("Launcher");
+        window.setMinWidth(50);
+        window.setMinHeight(30);
+        window.setResizable(false);
+//        window.initStyle(StageStyle.UNDECORATED);
 
         System.out.println("read names");
         readNames();
-
-        VBox box = new VBox();
 
         GridPane root = new GridPane();
         root.setVgap(5);
@@ -53,10 +56,6 @@ public class MainApp extends Application {
         root.setAlignment(Pos.CENTER);
         root.setMinSize(50.0, 30.0);
 
-//        Label label = new Label("Text");
-//        root.add(label, 0, 0);
-
-//        TextField text = TextFields.createClearableTextField();
         TextField text = new TextField();
         StringBuilder input = new StringBuilder();
 
@@ -73,23 +72,6 @@ public class MainApp extends Application {
             }
         });
 
-        text.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (newValue) {
-                    System.out.println("focus");
-                } else {
-                    primaryStage.close();
-                }
-            }
-        });
-
-
-//        ObservableList<Item> items = FXCollections.observableArrayList(
-//                new Item("Item1"),
-//                new Item("Item2"),
-//                new Item("Item3")
-//        );
 
         TableColumn<Item, String> column = new TableColumn<>();
 //        column.setMinWidth(100);
@@ -101,31 +83,32 @@ public class MainApp extends Application {
 //        table.setItems(items);
 
 
-
-
-//        text.setOnKeyReleased(event -> {
-//            if (event.getCode() != KeyCode.ENTER) {
-//
-////                input.append(event.getText());
-//                TextField source = (TextField) event.getSource();
-//                System.out.println(source.getText());
-////                System.out.println(event.getCode() + " - " + event.getText());
-////                System.out.println(event.getCode());
-////                label.setText(input.toString());
-//            } else {
-////                primaryStage.toBack();
-//            }
-//        });
-//        text.setOnInputMethodTextChanged(event -> {
-//            String input1 = event.getCommitted();
-//            System.out.println(input1);
-//            label.setText(input1);
-//        });
         root.add(text, 1, 0);
         root.add(table, 1, 1);
 
-        primaryStage.setScene(new Scene(root, 600, 400));
-        primaryStage.show();
+        window.setScene(new Scene(root, 600, 400));
+//        primaryStage.show();
+
+        window.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue) {
+//                    System.out.println("Get focus");
+                } else {
+//                    handler.stop();
+//                    Start.provider.stop();
+                    System.out.println("Hide app");
+                    window.hide();
+                }
+            }
+        });
+
+        window.getScene().setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ESCAPE) {
+                System.out.println("Hide app");
+                window.hide();
+            }
+        });
     }
 
     private ObservableList<Item> search(String input) {
@@ -151,7 +134,6 @@ public class MainApp extends Application {
     private void readNames() throws IOException {
 
         InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream("names.txt");
-        System.out.println("Hello " + resourceAsStream);
 
         Scanner scanner = new Scanner(resourceAsStream);
 
