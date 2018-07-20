@@ -14,7 +14,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,6 +48,8 @@ public class MainApp extends Application {
         window.setMinHeight(30);
         window.setResizable(false);
 //        window.initStyle(StageStyle.UNDECORATED);
+//        window.initStyle(StageStyle.TRANSPARENT);
+        window.initStyle(StageStyle.UTILITY);
 
         System.out.println("read names");
         readNames();
