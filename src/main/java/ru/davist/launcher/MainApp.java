@@ -66,6 +66,7 @@ public class MainApp extends Application {
 
         TableView<Item> table = new TableView<>();
 
+        text.setFont(Font.font("Liberation Sans", FontWeight.LIGHT, 30));
         text.textProperty().addListener(observable -> {
 //            System.out.println("Database: " + database);
             String inputText = text.getText();

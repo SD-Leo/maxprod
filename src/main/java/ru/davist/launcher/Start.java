@@ -17,6 +17,11 @@ public class Start {
 
     public static void main(String[] args) throws Exception {
 
+//        String fonts[] = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+//        for ( int i = 0; i < fonts.length; i++ ) {
+//            System.out.println(fonts[i]);
+//        }
+
         provider = Provider.getCurrentProvider(false);
 
         Platform.setImplicitExit(false);
