@@ -1,8 +1,6 @@
 package ru.davist.launcher;
 
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -17,7 +15,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,14 +39,18 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         window = new Stage();
-        Start.mainWindow = window;
+        Start.window = window;
         window.setTitle("Launcher");
         window.setMinWidth(50);
         window.setMinHeight(30);
         window.setResizable(false);
 //        window.initStyle(StageStyle.UNDECORATED);
 //        window.initStyle(StageStyle.TRANSPARENT);
-        window.initStyle(StageStyle.UTILITY);
+//        window.initStyle(StageStyle.UTILITY);
+//        window.setAlwaysOnTop(true);
+//        window.centerOnScreen();
+//        window.setY(window.getY() - 100.0);
+
 
         System.out.println("read names");
         readNames();
@@ -62,7 +63,8 @@ public class MainApp extends Application {
         root.setMinSize(50.0, 30.0);
 
         TextField text = new TextField();
-        StringBuilder input = new StringBuilder();
+        Start.text = text;
+//        StringBuilder input = new StringBuilder();
 
         TableView<Item> table = new TableView<>();
 
@@ -73,10 +75,18 @@ public class MainApp extends Application {
             if (inputText == null || inputText.isEmpty()) {
                 table.setItems(FXCollections.emptyObservableList());
             } else {
-                System.out.println("input: " + inputText);
+//                System.out.println("input: " + inputText);
                 table.setItems(search(inputText));
             }
         });
+        text.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                System.out.println("Hide app on Enter");
+                text.clear();
+                window.hide();
+            }
+        });
+
 
 
         TableColumn<Item, String> column = new TableColumn<>();
@@ -95,44 +105,41 @@ public class MainApp extends Application {
         window.setScene(new Scene(root, 600, 400));
 //        primaryStage.show();
 
-        window.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (newValue) {
-//                    System.out.println("Get focus");
-                } else {
-//                    handler.stop();
-//                    Start.provider.stop();
-                    System.out.println("Hide app");
-                    window.hide();
-                }
+        window.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println("old: " + oldValue + ", new: " + newValue);
+            if (!newValue) {
+                System.out.println("Hide app");
+                text.clear();
+                window.hide();
             }
         });
 
         window.getScene().setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
-                System.out.println("Hide app");
+                System.out.println("Hide app by escape key");
+                text.clear();
                 window.hide();
             }
         });
     }
 
+
     private ObservableList<Item> search(String input) {
 
-        List<String> finded = new ArrayList<>();
-        System.out.println("Search size: " + database.size());
+        List<String> found = new ArrayList<>();
+//        System.out.println("Search size: " + database.size());
         for (String item : database) {
             if (item.toLowerCase().startsWith(input.toLowerCase())) {
-                finded.add(item);
+                found.add(item);
             }
         }
         for (String item : database) {
-            if (!finded.contains(item) && item.toLowerCase().contains(input.toLowerCase())) {
-                finded.add(item);
+            if (!found.contains(item) && item.toLowerCase().contains(input.toLowerCase())) {
+                found.add(item);
             }
         }
 
-        List<Item> collect = finded.stream().map(Item::new).collect(Collectors.toList());
+        List<Item> collect = found.stream().map(Item::new).collect(Collectors.toList());
 
         return FXCollections.observableArrayList(collect);
     }
