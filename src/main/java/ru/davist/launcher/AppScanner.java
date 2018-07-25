@@ -5,10 +5,8 @@ import ru.davist.launcher.model.DesktopEntry;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.io.IOException;
+import java.util.*;
 
 public class AppScanner {
 
@@ -31,16 +29,18 @@ public class AppScanner {
 
         List<File> files = findFiles();
 
+        System.out.println(files.size() + " desktop files are found");
+
 
         try {
             for (File file : files) {
                 DesktopEntry entry = new DesktopEntry();
                 entry.setPath(file.getAbsolutePath());
+//                System.out.println(entry.getPath());
                 Scanner scanner = new Scanner(file);
                 while (scanner.hasNext()) {
                     String line = scanner.nextLine();
                     if (line != null && !line.isEmpty()) {
-
                         if (line.startsWith("Name")) {
                             entry.setName(line.split("=")[1]);
                         }
@@ -48,9 +48,14 @@ public class AppScanner {
                             entry.setExec(line.split("=")[1]);
                         }
                     }
+                    if (entry.getName() != null && entry.getExec() != null) {
+                        break;
+                    }
                 }
                 if (entry.getExec() != null) {
                     entries.add(entry);
+                } else {
+                    System.out.println("Warn! No exec: " + file.getAbsolutePath());
                 }
             }
         } catch (FileNotFoundException e) {
@@ -58,9 +63,9 @@ public class AppScanner {
         }
 
 
-        for (DesktopEntry entry : entries) {
-
-        }
+//        for (DesktopEntry entry : entries) {
+//            System.out.println(entry.getName());
+//        }
 
     }
 
@@ -89,6 +94,8 @@ public class AppScanner {
                     String filePath = location + "/" + desktopFile;
                     files.add(new File(filePath));
                 }
+            } else {
+                System.out.println("Nothing found in: " + dir.getAbsolutePath());
             }
         }
         return files;
@@ -102,8 +109,20 @@ public class AppScanner {
     }
 
 
-    public static void main(String[] args) {
-        new AppScanner().scan();
+    public static void main(String[] args) throws IOException {
+        String command = "/opt/Enpass/bin/runenpass.sh %U";
+        List<String> commAndArgs = Arrays.asList(command.split(" "));
+        ProcessBuilder pb = new ProcessBuilder(commAndArgs);
+        Process p = pb.start();
+
+
+        System.out.println("Finished!!!: " + p.exitValue());
+
+//        AppScanner scanner = new AppScanner();
+//        scanner.scan();
+//        for (DesktopEntry entry : scanner.find("enpass")) {
+//            System.out.println(entry);
+//        }
 //        for (String location : new AppScanner().locations) {
 //            System.out.println(location);
 //        }

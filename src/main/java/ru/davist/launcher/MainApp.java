@@ -20,6 +20,7 @@ import ru.davist.launcher.model.DesktopEntry;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -54,8 +55,8 @@ public class MainApp extends Application {
 //        window.setY(window.getY() - 100.0);
 
 
-        System.out.println("read names");
-        readNames();
+//        System.out.println("read names");
+//        readNames();
 
         scanner = new AppScanner();
         scanner.scan();
@@ -82,16 +83,48 @@ public class MainApp extends Application {
             } else {
 //                System.out.println("input: " + inputText);
                 table.setItems(search(inputText));
+                table.getSelectionModel().select(0);
             }
         });
         text.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                System.out.println("Hide app on Enter");
+
+                Item selectedItem = table.getSelectionModel().getSelectedItem();
+                if (selectedItem != null) {
+
+                    String command = exec(selectedItem.getDesktopEntry());
+                    System.out.println("Hide app on Enter: " + command);
+                    text.clear();
+                    window.hide();
+                } else {
+                    System.out.println("Selected item is null");
+                }
+
+//                System.out.println("Hide app on Enter");
                 text.clear();
+
                 window.hide();
+            }
+            if (event.getCode() == KeyCode.DOWN) {
+                table.requestFocus();
             }
         });
 
+
+        table.setOnKeyReleased(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                Item selectedItem = table.getSelectionModel().getSelectedItem();
+                if (selectedItem != null) {
+
+                    String command = exec(selectedItem.getDesktopEntry());
+                    System.out.println("Hide app on Enter: " + command);
+                    text.clear();
+                    window.hide();
+                } else {
+                    System.out.println("Selected item is null");
+                }
+            }
+        });
 
 
         TableColumn<Item, String> column = new TableColumn<>();
@@ -111,7 +144,7 @@ public class MainApp extends Application {
 //        primaryStage.show();
 
         window.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("old: " + oldValue + ", new: " + newValue);
+//            System.out.println("old: " + oldValue + ", new: " + newValue);
             if (!newValue) {
                 System.out.println("Hide app");
                 text.clear();
@@ -126,6 +159,21 @@ public class MainApp extends Application {
                 window.hide();
             }
         });
+    }
+
+    private String exec(DesktopEntry entry) {
+        //                    String command = "/opt/Enpass/bin/runenpass.sh %U";
+        String command = entry.getExec();
+
+        List<String> commAndArgs = Arrays.asList(command.split(" "));
+        ProcessBuilder pb = new ProcessBuilder(commAndArgs);
+        try {
+            Process p = pb.start();
+//            System.out.println(p);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return command;
     }
 
 
@@ -153,7 +201,7 @@ public class MainApp extends Application {
 
         List<DesktopEntry> found = scanner.find(input);
 
-        List<Item> collect = found.stream().map(entry -> new Item(entry.getName())).collect(Collectors.toList());
+        List<Item> collect = found.stream().map(entry -> new Item(entry.getName(), entry)).collect(Collectors.toList());
 
         return FXCollections.observableArrayList(collect);
     }

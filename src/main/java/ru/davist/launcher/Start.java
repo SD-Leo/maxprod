@@ -45,7 +45,7 @@ public class Start {
 //                System.out.println("" + window.isFocused());
                 window.requestFocus(); // FIXME doesnt work :(
 //                text.requestFocus();
-                System.out.println("" + window.isFocused());
+//                System.out.println("" + window.isFocused());
 //                window.setOpacity(0.5);
 //                }
             });
