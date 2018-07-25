@@ -15,6 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import ru.davist.launcher.model.DesktopEntry;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,6 +29,7 @@ public class MainApp extends Application {
     private List<String> database; // = new ArrayList<>();
     private StopHandler handler;
     private Stage window;
+    private AppScanner scanner;
 
 //    public void run(StopHandler handler) throws IOException {
 //        System.out.println("11111111: " + this);
@@ -54,6 +56,9 @@ public class MainApp extends Application {
 
         System.out.println("read names");
         readNames();
+
+        scanner = new AppScanner();
+        scanner.scan();
 
         GridPane root = new GridPane();
         root.setVgap(5);
@@ -124,7 +129,7 @@ public class MainApp extends Application {
     }
 
 
-    private ObservableList<Item> search(String input) {
+    private ObservableList<Item> search1(String input) {
 
         List<String> found = new ArrayList<>();
 //        System.out.println("Search size: " + database.size());
@@ -140,6 +145,15 @@ public class MainApp extends Application {
         }
 
         List<Item> collect = found.stream().map(Item::new).collect(Collectors.toList());
+
+        return FXCollections.observableArrayList(collect);
+    }
+
+    private ObservableList<Item> search(String input) {
+
+        List<DesktopEntry> found = scanner.find(input);
+
+        List<Item> collect = found.stream().map(entry -> new Item(entry.getName())).collect(Collectors.toList());
 
         return FXCollections.observableArrayList(collect);
     }
