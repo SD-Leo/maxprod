@@ -1,7 +1,6 @@
-package ru.davist.launcher;
+package ru.davist.launcher.model;
 
 import javafx.beans.property.SimpleStringProperty;
-import ru.davist.launcher.model.DesktopEntry;
 
 public class Item {
 

@@ -3,7 +3,6 @@ package ru.davist.launcher;
 import ru.davist.launcher.model.DesktopEntry;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.*;
@@ -18,8 +17,8 @@ public class AppScanner {
         locations = new ArrayList<>();
 
         locations.add("/home/" + System.getProperty("user.name") + "/.local/share/applications");
-        locations.add("/home/" + System.getProperty("user.name") + "/.local/share/flatpak/exports/share/application");
-        locations.add("/var/lib/flatpak/exports/share/application");
+        locations.add("/home/" + System.getProperty("user.name") + "/.local/share/flatpak/exports/share/applications");
+        locations.add("/var/lib/flatpak/exports/share/applications");
         locations.add("/usr/local/share/applications");
         locations.add("/usr/share/applications");
     }
@@ -34,17 +33,31 @@ public class AppScanner {
 
         try {
             for (File file : files) {
+//                System.out.println(file.getAbsolutePath());
+//                BufferedReader reader = new BufferedReader(new FileReader(file.getAbsolutePath()));
+//                IniStyleFile read = new DesktopEntryReader(reader).read();
+//                org.freedesktop.DesktopEntry entry1 = new org.freedesktop.DesktopEntry(read);
+//                System.out.println("Name: " + entry1.get(KEY_NAME));
+//
+//                if ("true".equalsIgnoreCase(entry1.get(KEY_NO_DISPLAY))) {
+//                    continue;
+//                }
+
+
                 DesktopEntry entry = new DesktopEntry();
+//                entry.setName(entry1.get(KEY_NAME));
+//                entry.setExec(entry1.get(KEY_EXEC));
+
+
                 entry.setPath(file.getAbsolutePath());
-//                System.out.println(entry.getPath());
                 Scanner scanner = new Scanner(file);
                 while (scanner.hasNext()) {
                     String line = scanner.nextLine();
                     if (line != null && !line.isEmpty()) {
-                        if (line.startsWith("Name")) {
+                        if (line.startsWith("Name=")) {
                             entry.setName(line.split("=")[1]);
                         }
-                        if (line.startsWith("Exec")) {
+                        if (line.startsWith("Exec=")) {
                             entry.setExec(line.split("=")[1]);
                         }
                     }
@@ -58,7 +71,9 @@ public class AppScanner {
                     System.out.println("Warn! No exec: " + file.getAbsolutePath());
                 }
             }
-        } catch (FileNotFoundException e) {
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 

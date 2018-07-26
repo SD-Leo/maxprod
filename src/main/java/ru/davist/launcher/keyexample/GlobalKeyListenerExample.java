@@ -1,4 +1,4 @@
-package ru.davist.launcher;
+package ru.davist.launcher.keyexample;
 
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;

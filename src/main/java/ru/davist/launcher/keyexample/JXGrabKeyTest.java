@@ -1,4 +1,4 @@
-package ru.davist.launcher;
+package ru.davist.launcher.keyexample;
 
 //import jxgrabkey.HotkeyConflictException;
 //import jxgrabkey.HotkeyListener;

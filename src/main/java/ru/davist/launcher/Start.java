@@ -29,7 +29,7 @@ public class Start {
 
         Platform.setImplicitExit(false);
 
-        provider.register(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, InputEvent.ALT_DOWN_MASK), hotKey -> {
+        provider.register(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, InputEvent.CTRL_DOWN_MASK | InputEvent.ALT_DOWN_MASK), hotKey -> {
 
             System.out.println("ALT+SPACE pressed");
 
@@ -54,11 +54,8 @@ public class Start {
 
 
 
-        System.out.println("Starting app. Press ALT+SPACE to start");
+        System.out.println("Starting app. Press CTRL+ALT+SPACE to start");
         Application.launch(MainApp.class, args);
-
-//        JXGrabKeyTest keyTest = new JXGrabKeyTest();
-//        keyTest.register(app::run);
 
     }
 

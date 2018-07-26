@@ -43,6 +43,13 @@
             <version>2.1.0</version>
         </dependency>
 
+        <!-- https://github.com/omajid/xdg-java/ -->
+        <dependency>
+            <groupId>org.freedesktop</groupId>
+            <artifactId>xdg-java</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
 
     </dependencies>
 

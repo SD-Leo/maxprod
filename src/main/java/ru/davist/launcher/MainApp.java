@@ -15,7 +15,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import ru.davist.launcher.model.DesktopEntry;
+import ru.davist.launcher.model.Item;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,16 +30,8 @@ import java.util.stream.Collectors;
 public class MainApp extends Application {
 
     private List<String> database; // = new ArrayList<>();
-    private StopHandler handler;
     private Stage window;
     private AppScanner scanner;
-
-//    public void run(StopHandler handler) throws IOException {
-//        System.out.println("11111111: " + this);
-//        this.handler = handler;
-//        System.out.println("launch");
-//        launch();
-//    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -49,7 +43,7 @@ public class MainApp extends Application {
         window.setResizable(false);
 //        window.initStyle(StageStyle.UNDECORATED);
 //        window.initStyle(StageStyle.TRANSPARENT);
-//        window.initStyle(StageStyle.UTILITY);
+        window.initStyle(StageStyle.UTILITY);
 //        window.setAlwaysOnTop(true);
 //        window.centerOnScreen();
 //        window.setY(window.getY() - 100.0);
