@@ -7,11 +7,13 @@ public class Item {
 
     private SimpleStringProperty value;
 
+    private SimpleStringProperty exec;
 
     private DesktopEntry desktopEntry;
 
     public Item(String value, DesktopEntry desktopEntry) {
         this.value = new SimpleStringProperty(value);
+        this.exec = new SimpleStringProperty(desktopEntry.getExec());
         this.desktopEntry = desktopEntry;
     }
 
@@ -25,6 +27,14 @@ public class Item {
 
     public void setValue(String value) {
         this.value.set(value);
+    }
+
+    public String getExec() {
+        return exec.get();
+    }
+
+    public void setExec(String exec) {
+        this.exec.set(exec);
     }
 
     public DesktopEntry getDesktopEntry() {

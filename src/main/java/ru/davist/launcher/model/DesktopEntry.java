@@ -1,5 +1,7 @@
 package ru.davist.launcher.model;
 
+import java.util.Objects;
+
 public class DesktopEntry {
 
     private String path;
@@ -30,6 +32,22 @@ public class DesktopEntry {
 
     public void setExec(String exec) {
         this.exec = exec;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DesktopEntry that = (DesktopEntry) o;
+        return Objects.equals(path, that.path) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(exec, that.exec);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(path, name, exec);
     }
 
     @Override

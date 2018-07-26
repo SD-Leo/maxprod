@@ -127,12 +127,16 @@ public class MainApp extends Application {
         });
 
 
-        TableColumn<Item, String> column = new TableColumn<>();
-//        column.setMinWidth(100);
-        column.setPrefWidth(300.0);
-        column.setCellValueFactory(new PropertyValueFactory<>("value"));
+        TableColumn<Item, String> name = new TableColumn<>();
+//        name.setMinWidth(100);
+        name.setPrefWidth(300.0);
+        name.setCellValueFactory(new PropertyValueFactory<>("value"));
+        table.getColumns().add(name);
 
-        table.getColumns().add(column);
+        TableColumn<Item, String> exec = new TableColumn<>();
+        exec.setPrefWidth(300.0);
+        exec.setCellValueFactory(new PropertyValueFactory<>("exec"));
+        table.getColumns().add(exec);
 
 //        table.setItems(items);
 

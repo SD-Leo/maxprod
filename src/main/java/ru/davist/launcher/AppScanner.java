@@ -75,8 +75,15 @@ public class AppScanner {
         }
         List<DesktopEntry> found = new ArrayList<>();
         for (DesktopEntry entry : entries) {
-            if (entry.getName().toLowerCase().contains(query.toLowerCase())) {
+            if (entry.getName().toLowerCase().startsWith(query.toLowerCase())) {
                 found.add(entry);
+            }
+        }
+        for (DesktopEntry entry : entries) {
+            if (!found.contains(entry)) {
+                if (entry.getName().toLowerCase().contains(query.toLowerCase())) {
+                    found.add(entry);
+                }
             }
         }
 
