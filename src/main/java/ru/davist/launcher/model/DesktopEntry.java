@@ -10,6 +10,8 @@ public class DesktopEntry {
 
     private String exec;
 
+    private String iconPath;
+
     public String getPath() {
         return path;
     }
@@ -34,6 +36,14 @@ public class DesktopEntry {
         this.exec = exec;
     }
 
+    public String getIconPath() {
+        return iconPath;
+    }
+
+    public void setIconPath(String iconPath) {
+        this.iconPath = iconPath;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -41,13 +51,13 @@ public class DesktopEntry {
         DesktopEntry that = (DesktopEntry) o;
         return Objects.equals(path, that.path) &&
                 Objects.equals(name, that.name) &&
-                Objects.equals(exec, that.exec);
+                Objects.equals(exec, that.exec) &&
+                Objects.equals(iconPath, that.iconPath);
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(path, name, exec);
+        return Objects.hash(path, name, exec, iconPath);
     }
 
     @Override
@@ -56,6 +66,7 @@ public class DesktopEntry {
                 "path='" + path + '\'' +
                 ", name='" + name + '\'' +
                 ", exec='" + exec + '\'' +
+                ", iconPath='" + iconPath + '\'' +
                 '}';
     }
 }

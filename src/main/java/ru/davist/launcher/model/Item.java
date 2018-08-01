@@ -1,12 +1,15 @@
 package ru.davist.launcher.model;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.image.ImageView;
 
 public class Item {
 
     private SimpleStringProperty value;
 
     private SimpleStringProperty exec;
+
+    private ImageView image;
 
     private DesktopEntry desktopEntry;
 
@@ -34,6 +37,14 @@ public class Item {
 
     public void setExec(String exec) {
         this.exec.set(exec);
+    }
+
+    public ImageView getImage() {
+        return image;
+    }
+
+    public void setImage(ImageView image) {
+        this.image = image;
     }
 
     public DesktopEntry getDesktopEntry() {

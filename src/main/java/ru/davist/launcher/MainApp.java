@@ -10,6 +10,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
@@ -120,6 +122,11 @@ public class MainApp extends Application {
             }
         });
 
+        TableColumn<Item, ImageView> firstColumn = new TableColumn<>("Images");
+        firstColumn.setCellValueFactory(new PropertyValueFactory<>("image"));
+        firstColumn.setPrefWidth(60);
+        table.getColumns().add(firstColumn);
+
 
         TableColumn<Item, String> name = new TableColumn<>();
 //        name.setMinWidth(100);
@@ -134,6 +141,8 @@ public class MainApp extends Application {
 
 //        table.setItems(items);
 
+
+        ImageView image = new ImageView("file:/opt/idea/idea-IC/bin/idea.png");
 
         root.add(text, 1, 0);
         root.add(table, 1, 1);
@@ -162,6 +171,7 @@ public class MainApp extends Application {
     private String exec(DesktopEntry entry) {
         //                    String command = "/opt/Enpass/bin/runenpass.sh %U";
         String command = entry.getExec();
+        System.out.println("Entry: " + entry);
 
         List<String> commAndArgs = Arrays.asList(command.split(" "));
         ProcessBuilder pb = new ProcessBuilder(commAndArgs);
@@ -199,7 +209,23 @@ public class MainApp extends Application {
 
         List<DesktopEntry> found = scanner.find(input);
 
-        List<Item> collect = found.stream().map(entry -> new Item(entry.getName(), entry)).collect(Collectors.toList());
+        List<Item> collect = found.stream().map(entry -> {
+            Item item = new Item(entry.getName(), entry);
+            if (entry.getIconPath() != null) {
+
+                try {
+//                    System.out.println(entry.getIconPath());
+                    Image image = new Image("file:" + entry.getIconPath());
+                    ImageView imageView = new ImageView(image);
+                    imageView.setFitHeight(40.0);
+                    imageView.setFitWidth(40.0);
+                    item.setImage(imageView);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+            return item;
+        }).collect(Collectors.toList());
 
         return FXCollections.observableArrayList(collect);
     }
@@ -225,4 +251,6 @@ public class MainApp extends Application {
         resourceAsStream.close();
 
     }
+
+
 }

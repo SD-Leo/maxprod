@@ -58,10 +58,14 @@ public class AppScanner {
                             entry.setName(line.split("=")[1]);
                         }
                         if (line.startsWith("Exec=")) {
-                            entry.setExec(line.split("=")[1]);
+                            entry.setExec(line.split("=")[1].split(" ")[0]);
                         }
+                        if (line.startsWith("Icon=")) {
+                            entry.setIconPath(checkIconFile(line.split("=")[1]));
+                        }
+
                     }
-                    if (entry.getName() != null && entry.getExec() != null) {
+                    if (entry.getName() != null && entry.getExec() != null && entry.getIconPath() != null) {
                         break;
                     }
                 }
@@ -150,5 +154,48 @@ public class AppScanner {
 //        }
 //        System.getProperties().list(System.out);
 //        System.out.println(System.getProperty("user.name"));
+    }
+
+    private String checkIconFile(String iconName) {
+        List<String> sizes = Arrays.asList(
+//                "8x8",
+//                "16x16",
+//                "22x22",
+//                "24x24",
+//                "32x32",
+//                "36x36",
+//                "42x42",
+                "48x48",
+                "64x64",
+                "72x72",
+                "96x96",
+                "128x128",
+                "192x192",
+                "256x256",
+                "512x512"
+        );
+
+        File file;
+        String path = "";
+        boolean found = false;
+        for (String size : sizes) {
+            path = "/usr/share/icons/hicolor/" + size + "/apps/" + iconName + ".png";
+            file = new File(path);
+            if (file.exists()) {
+                found = true;
+                break;
+            }
+        }
+        if (found) {
+            return path;
+        } else {
+            path = "/home/user/.local/share/icons/" + iconName + ".png";
+            file = new File(path);
+            if (file.exists()) {
+                return path;
+            }
+            return iconName;
+        }
+
     }
 }
