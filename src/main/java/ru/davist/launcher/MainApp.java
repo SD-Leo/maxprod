@@ -142,7 +142,7 @@ public class MainApp extends Application {
 //        table.setItems(items);
 
 
-        ImageView image = new ImageView("file:/opt/idea/idea-IC/bin/idea.png");
+//        ImageView image = new ImageView("file:/opt/idea/idea-IC/bin/idea.png");
 
         root.add(text, 1, 0);
         root.add(table, 1, 1);

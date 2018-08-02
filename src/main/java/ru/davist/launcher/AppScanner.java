@@ -61,7 +61,10 @@ public class AppScanner {
                             entry.setExec(line.split("=")[1].split(" ")[0]);
                         }
                         if (line.startsWith("Icon=")) {
-                            entry.setIconPath(checkIconFile(line.split("=")[1]));
+                            String[] split = line.split("=");
+                            if (split.length > 1) {
+                                entry.setIconPath(checkIconFile(split[1]));
+                            }
                         }
 
                     }
@@ -172,14 +175,23 @@ public class AppScanner {
                 "128x128",
                 "192x192",
                 "256x256",
-                "512x512"
+                "512x512",
+                "48",
+                "64",
+                "72",
+                "96",
+                "128",
+                "192",
+                "256",
+                "512"
         );
 
         File file;
         String path = "";
         boolean found = false;
         for (String size : sizes) {
-            path = "/usr/share/icons/hicolor/" + size + "/apps/" + iconName + ".png";
+//            path = "/usr/share/icons/hicolor/" + size + "/apps/" + iconName + ".png";
+            path = "/usr/share/icons/Mint-X/apps/" + size + "/" + iconName + ".png";
             file = new File(path);
             if (file.exists()) {
                 found = true;
